@@ -3,7 +3,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
-const db = require('./src/db/connections');
 
 
 app.use(bodyParser.json());
@@ -13,18 +12,10 @@ app.use(
   })
 );
 
-// route
-app.get('/', (request, response) => {
-  response.json({ 
-    info: 'Node.js, Express and Postgres API'
-  });
-});
+// direct all requests to the frontend
 
-app.get('/users', db.getUsers);
-app.get('/users/:id', db.getUserById);
-app.post('/users', db.createUser);
-app.put('/users/:id', db.updateUser);
-app.delete('/users/:id', db.deleteUser);
+// import routes
+require('./src/routes/index')(app);
 
 // set app to listen on the port
 app.listen(port, () => {
