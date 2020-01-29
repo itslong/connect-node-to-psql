@@ -3,6 +3,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
+const db = require('./src/db/connections');
+
 
 app.use(bodyParser.json());
 app.use(
@@ -17,6 +19,12 @@ app.get('/', (request, response) => {
     info: 'Node.js, Express and Postgres API'
   });
 });
+
+app.get('/users', db.getUsers);
+app.get('/users/:id', db.getUserById);
+app.post('/users', db.createUser);
+app.put('/users/:id', db.updateUser);
+app.delete('/users/:id', db.deleteUser);
 
 // set app to listen on the port
 app.listen(port, () => {
